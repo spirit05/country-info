@@ -362,14 +362,6 @@ document.addEventListener('DOMContentLoaded', () => {
       code: 'GRD',
     },
     {
-      ru: 'Макао',
-      ruOf: 'Специальный административный район Макао Китайской Народной Республики Китай',
-      eng: 'Macau',
-      engOf:
-        "Macao Special Administrative Region of the People's Republic of China",
-      code: 'MAC',
-    },
-    {
       ru: 'Кипр',
       ruOf: 'Республика Кипр',
       eng: 'Cyprus',
