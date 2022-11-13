@@ -509,13 +509,6 @@ document.addEventListener('DOMContentLoaded', () => {
       code: 'CUB',
     },
     {
-      ru: 'Тайвань',
-      ruOf: 'Китайская Республика',
-      eng: 'Taiwan',
-      engOf: 'Republic of China (Taiwan)',
-      code: 'TWN',
-    },
-    {
       ru: 'Свазиленд',
       ruOf: 'Королевство Свазиленд',
       eng: 'Eswatini',
