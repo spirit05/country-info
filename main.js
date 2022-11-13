@@ -1807,9 +1807,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   //   Обработка ошибок и установка сообщений к ним
   const errorHandler = err => {
-    console.log('err: ', err);
     const article = document.querySelector('article');
     const message = {
+      'Failed to fetch':
+        'Не удалось установить ваше местоположение, для отображения информации используйте форму поиска!',
       'No neighbour': 'Эта страна не граничит с другими!',
       403: 'Доступ к данным ограничен! Попробуйте позже!',
       404: 'Страна не найдена, проверьте правильность введенных данных!',
@@ -1848,7 +1849,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const getNeighboursData = async countryCode =>
     await fetch(`https://restcountries.com/v3.1/alpha/${countryCode}`)
       .then(res => checkResponse(res))
-      .then(d => (console.log(d), d))
       .then(data => showHtml(data[0], true))
       .catch(errorHandler);
 
@@ -1874,7 +1874,7 @@ document.addEventListener('DOMContentLoaded', () => {
           )
         )
       )
-      .then(country => (console.log(country), getCountryData(country.code)))
+      .then(country => getCountryData(country.code))
       .catch(errorHandler);
 
   //   Сброс данных для слушателя при нажатии кнопок
