@@ -1815,6 +1815,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   //   Проверка ответа сервера
   const checkResponse = res => {
+    console.log(res);
     if (!res.ok) throw new Error(res.status);
     return res.json();
   };
@@ -1850,7 +1851,6 @@ document.addEventListener('DOMContentLoaded', () => {
     fetch(
       `https://geocode.xyz/${lat},${lng}?json=1`
     )
-      .then(r=>(console.log(r),r))
       .then(res => checkResponse(res)
       .then(
         data => (
