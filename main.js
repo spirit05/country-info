@@ -1787,13 +1787,12 @@ document.addEventListener('DOMContentLoaded', () => {
     (container.textContent = ''),
     container.insertAdjacentHTML(
       'afterbegin',
-      `<span style="padding: 10px; max-width: 60vw; font-size: 1.8rem; border: 1px solid red; border-radius: 10px; color: red;">${txt}</span>`
+      `<span style="padding: 10px; max-width: 60vw; font-size: 1.8rem; border: 1px solid red; border-radius: 10px; color: red; text-align: center;">${txt}</span>`
     )
   );
 
   //   Обработка ошибок и установка сообщений к ним
   const errorHandler = err => {
-    console.log(err);
     const article = document.querySelector('article');
     const message = {
       'Failed to fetch':
