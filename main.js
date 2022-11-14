@@ -1851,7 +1851,7 @@ document.addEventListener('DOMContentLoaded', () => {
     fetch(
       `https://geocode.xyz/${lat},${lng}?json=1`
     )
-      .then(res => checkResponse(res)
+      .then(res => checkResponse(res))
       .then(
         data => (
           console.log(`You are in ${data.city}, ${data.country}`),
