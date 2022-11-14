@@ -1787,7 +1787,7 @@ document.addEventListener('DOMContentLoaded', () => {
     (container.textContent = ''),
     container.insertAdjacentHTML(
       'afterbegin',
-      `<span style="padding: 10px; font-size: 1.8rem; border: 1px solid red; border-radius: 10px; color: red;">${txt}</span>`
+      `<span style="padding: 10px; max-width: 60vw; font-size: 1.8rem; border: 1px solid red; border-radius: 10px; color: red;">${txt}</span>`
     )
   );
 
