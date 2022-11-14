@@ -1850,7 +1850,7 @@ document.addEventListener('DOMContentLoaded', () => {
     fetch(
       `https://geocode.xyz/${lat},${lng}?json=1`
     )
-      .then(r=>(console.log(r),r)
+      .then(r=>(console.log(r),r))
       .then(res => checkResponse(res)
       .then(
         data => (
