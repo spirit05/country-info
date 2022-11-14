@@ -1793,6 +1793,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   //   Обработка ошибок и установка сообщений к ним
   const errorHandler = err => {
+    console.log(err);
     const article = document.querySelector('article');
     const message = {
       'Failed to fetch':
