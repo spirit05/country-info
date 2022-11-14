@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const form = document.querySelector('form');
   const input = document.querySelector('.header__input');
   const formHelper = document.querySelector('.form-helper');
+  const URL = 'https://restcountries.com/v3.1/alpha/';
   const countries = [
     {
       ru: 'Мавритания',
@@ -1832,14 +1833,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Получение данных о соседних странах и вывод их на экран
   const getNeighboursData = async countryCode =>
-    await fetch(`https://restcountries.com/v3.1/alpha/${countryCode}`)
+    await fetch(`${URL}${countryCode}`)
       .then(res => checkResponse(res))
       .then(data => showHtml(data[0], true))
       .catch(errorHandler);
 
   //   Получение данных об основной стране
   const getCountryData = countryCode =>
-    fetch(`https://restcountries.com/v3.1/alpha/${countryCode}`)
+    fetch(`${URL}${countryCode}`)
       .then(res => checkResponse(res))
       .then(displayCountryAndGetNeighbour)
       .catch(errorHandler);
@@ -1847,7 +1848,7 @@ document.addEventListener('DOMContentLoaded', () => {
   //   Получение кода страны на основе переданных координат
   const displayCountryByGPS = (lat, lng) =>
     fetch(
-      `https://geocode.xyz/${lat},${lng}?json=1&auth=321417978709752316819x17898`
+      `https://geocode.xyz/${lat},${lng}?json=1`
     )
       .then(res => checkResponse(res))
       .then(
