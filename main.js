@@ -149,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
       .map(createElement);
     helpContainer.append(fragment);
     return res
-  );
+  };
 
   // Получение списка всех стран
   const getAllCountries = geoData =>
