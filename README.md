@@ -12,4 +12,6 @@
  - Fetch
  - Geolocation
 
-
+## API использованные в проекте
+ - <a  href="https://restcountries.com">REST COUNTRIES</a>
+ - <a  href="https://geocode.xyz/api">Geocode.xyz</a>
