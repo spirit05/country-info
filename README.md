@@ -1,6 +1,6 @@
 # Тестовый проект по получению информация о стране определенной по гелокации браузера или введенной стране
 
-<a  href="https://info-counrties.netlify.app" target="_blank">Открыть проект</a>
+<a  href="https://info-counrties.netlify.app">Демо проекта</a>
 
 ## Цель проекта
 
@@ -13,5 +13,5 @@
  - Geolocation
 
 ## API использованные в проекте
- - <a  href="https://restcountries.com" target="_blank>REST COUNTRIES</a>
- - <a  href="https://geocode.xyz/api" target="_blank>Geocode.xyz</a>
+ - <a  href="https://restcountries.com">REST COUNTRIES</a>
+ - <a  href="https://geocode.xyz/api">Geocode.xyz</a>
