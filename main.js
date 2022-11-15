@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
   const URL = 'https://restcountries.com/v3.1';
-  const btn = document.querySelector('button');
   const form = document.querySelector('.country__input');
   const input = document.querySelector('.header__input');
   const container = document.querySelector('main');
@@ -21,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     [404, 'Страна не найдена, проверьте правильность введенных данных!'],
     [500, 'Что-то пошло не так, попробуйте еще раз!'],
   ]);
-  let allCountries, contriesName, flag;
+  let allCountries, countriesName;
 
   const showHtml = (data, neighbour = false) => {
     const population = new Intl.NumberFormat(data.altSpellings[0]).format(
@@ -33,18 +32,17 @@ document.addEventListener('DOMContentLoaded', () => {
     container.insertAdjacentHTML(
       'beforeend',
       `
-    <article class="country ${neighbour ? 'neighbour' : ''}">
-        <img class="country__img" src="${data.flags.svg}">
-        <div class="country__data">
-            <h3 class="country__name">${data.name.common}</h3>
-            <h4 class="country__region">${data.region}</h4>
-            <p class="country__row"><span>👨‍👩‍👧‍👦</span>${population}</p>
-            <p class="country__row"><span>🗣️</span>${languages}</p>
-            <p class="country__row"><span>💰</span>${currencies.name} ${
-        currencies.symbol
-      }</p>
-        </div>
-    </article>
+      <article class="country ${neighbour ? 'neighbour' : ''}">
+          <img class="country__img" src="${data.flags.svg}">
+          <div class="country__data">
+              <h3 class="country__name">${data.name.common}</h3>
+              <h4 class="country__region">${data.region}</h4>
+              <p class="country__row"><span>👨‍👩‍👧‍👦</span>${population}</p>
+              <p class="country__row"><span>🗣️</span>${languages}</p>
+              <p class="country__row"><span>💰</span>${currencies.name} ${currencies.symbol}</p>
+              <a href="${data.maps.googleMaps}" style="display: block; text-decoration: none;" target="_blank">Посмотреть на карте</a>
+          </div>
+      </article>
 `
     );
 
@@ -71,15 +69,6 @@ document.addEventListener('DOMContentLoaded', () => {
     );
   };
 
-  // Отображение ошибок на странице
-  const displayErrorHandler = txt => (
-    (container.textContent = ''),
-    container.insertAdjacentHTML(
-      'afterbegin',
-      `<span style="padding: 10px; font-size: 1.8rem; border: 1px solid red; border-radius: 10px; color: red;">${txt}</span>`
-    )
-  );
-
   // Проверка содержится ли название страны в списке стран
   const findComparator = (el, name) =>
     el.name.official.toLowerCase() === name.toLowerCase() ||
@@ -87,14 +76,14 @@ document.addEventListener('DOMContentLoaded', () => {
     el.translations.rus.official.toLowerCase() === name.toLowerCase() ||
     el.translations.rus.common.toLowerCase() === name.toLowerCase();
 
-  // // Получение страны по названию
+  // Получение страны по названию
   const getUserCountryRequest = countryReq =>
     new Promise(req => {
       const country = allCountries.find(el => findComparator(el, countryReq));
       country ? req(country) : rej('404');
     });
-
-  // Получение названия страны из данных о стране
+  
+  // Передача названия страны
   const getCountryName = data => getUserCountryRequest(data.country);
 
   // Получение списка стран граничащих с основной
@@ -105,40 +94,61 @@ document.addEventListener('DOMContentLoaded', () => {
     );
 
   // Вывод на страницу соседних стран
-  const displayNeighbours = arr =>
-    arr && arr.forEach(el => showHtml(...el, true));
+  const displayNeighbours = neighbours =>
+    neighbours && neighbours.forEach(el => showHtml(...el, true));
+  
+  // Отображение ошибок на странице
+  const displayErrorInContainer = txt => {
+    container.textContent = '';
+    container.insertAdjacentHTML(
+      'afterbegin',
+      `<span style="padding: 10px; font-size: 1.8rem; border: 1px solid red; border-radius: 10px; color: red;">${txt}</span>`
+    )
+  };
+  
+  // Отображение ошибки в указанном контейнере
+  const displayError = (container, message) => {
+    container.insertAdjacentHTML(
+        'beforeend',
+        `<span style="display: block; padding: 1rem; text-align: center;">${message}</span>`
+      )
+  }
 
   //   Обработка ошибок и установка сообщений к ним
   const errorHandler = err => {
     const article = document.querySelector('article');
     const errorMsg = messageErrors.get(err.message);
 
-    if (article) {
-      article.insertAdjacentHTML(
-        'beforeend',
-        `<span style="display: block; padding: 1rem; text-align: center;">${errorMsg}</span>`
-      );
-    } else displayErrorHandler(errorMsg);
+    if (article) displayError(article, errorMsg);
+    else displayErrorInContainer(errorMsg);
 
     console.error(errorMsg);
   };
 
+  // Создание элемента с подсказкой страны в форме поиска
   const createElement = el => {
     const name = el;
     const li = document.createElement('li');
+    
     li.textContent = name;
     li.classList.add('help__item');
     li.style.display = 'none';
+    
     fragment.appendChild(li);
+    
     return el;
   };
 
-  const helper = res => (
-    (contriesName = allCountries
+  // Заполнение массива названиями стран, 
+  // создание елементов подстказки формы поиска,
+  // вставка сразу всех элементов на страницу (для снижения нагрузки,
+  // чтобы не добавлять элементы при каждом вводе символа, а работать с уже готовым списком)
+  const helper = res => {
+    contriesName = allCountries
       .flatMap(e => [e.name.official, e.translations.rus.official])
-      .map(createElement)),
-    helpContainer.append(fragment),
-    res
+      .map(createElement);
+    helpContainer.append(fragment);
+    return res
   );
 
   // Получение списка всех стран
@@ -174,19 +184,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const inputHandler = () => {
     const value = input.value;
     let j = 0,
-      className;
+        className;
 
     helpContainer.style.display = 'block';
 
     contriesName.forEach(
-      (el, i) => (
-        (className =
+      (el, i) => {
+        className =
           value && j < 10 && el.match(new RegExp(`${value}`, 'i'))
             ? 'list-item'
-            : 'none'),
-        className === 'list-item' && j++,
-        (elementHelpList[i].style.display = className)
-      )
+            : 'none';
+        className === 'list-item' && j++;
+        elementHelpList[i].style.display = className;
+      }
     );
   };
 
@@ -196,6 +206,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ((input.value = e.target.textContent),
     (helpContainer.style.display = 'none'));
 
+  // Добавление слушателей событий
   form.addEventListener('submit', submitHandler);
   input.addEventListener('input', inputHandler);
   helpContainer.addEventListener('click', selectElem);
